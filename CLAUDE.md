@@ -39,7 +39,7 @@ Non c'è suite di test; le verifiche si fanno importando `build_payload` da REPL
 ## Vincoli tecnici non ovvi
 
 - **Formato del payload Wi‑Fi.** Il QR deve contenere esattamente `WIFI:T:<sec>;S:<ssid>;P:<pwd>;;` (la `P:` viene omessa quando `--security nopass`). I caratteri `\ ; , " :` dentro SSID e password vanno backslash-escapati, altrimenti iOS/Android non parsano il QR. La logica è in `escape_value` e `build_payload`.
-- **Code vincolato a `[A-Z]{3}`.** Tre lettere maiuscole, validazione fatale con exit 2 se non matcha. Coerente con gli esempi del pitch (`AMA`, `PRI`) e con il filename `<CODE>-wifi.png`.
+- **Code vincolato a `[A-Z]{2,3}`.** Due o tre lettere maiuscole, validazione fatale con exit 2 se non matcha. Tre lettere è il caso normale (`AMA`, `PRI`); due lettere è ammesso per coprire codici legacy come `TE`. Il filename resta `<CODE>-wifi.png`.
 - **Error correction H + ratio logo 18%.** Cambiare uno dei due valori senza l'altro può rendere il QR non scansionabile. Il margine disponibile a livello H copre fino a ~30% di moduli oscurati; teniamo un buffer.
 - **Overwrite silenzioso.** Se `qrcodes/<CODE>-wifi.png` esiste già viene sovrascritto senza prompt.
 - **Reti nascoste fuori scope.** Il flag `H:true` del payload non è supportato (R7 in `shaping.md`).

@@ -16,7 +16,7 @@ OUTPUT_DIR = ROOT / "qrcodes"
 LOGO_PATH = ROOT / "assets" / "wifi.png"
 CAPTION_SUFFIX = "Wi-Fi by Acacia"
 
-CODE_RE = re.compile(r"^[A-Z]{3}$")
+CODE_RE = re.compile(r"^[A-Z]{2,3}$")
 SPECIAL_CHARS = set(r'\;,":')
 
 FONT_CANDIDATES = [
@@ -114,7 +114,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(
         description="Generate a Wi-Fi join QR code as PNG with logo and caption."
     )
-    parser.add_argument("code", help="3-letter uppercase identifier (e.g. AMA)")
+    parser.add_argument("code", help="2- or 3-letter uppercase identifier (e.g. AMA, TE)")
     parser.add_argument("name", help="Extended name shown in the caption (e.g. Primula)")
     parser.add_argument("ssid", help="Wi-Fi network SSID")
     parser.add_argument("password", help="Wi-Fi password (ignored when --security nopass)")
@@ -128,7 +128,7 @@ def main() -> int:
 
     if not CODE_RE.match(args.code):
         print(
-            f"error: code must match [A-Z]{{3}}, got {args.code!r}",
+            f"error: code must match [A-Z]{{2,3}}, got {args.code!r}",
             file=sys.stderr,
         )
         return 2
